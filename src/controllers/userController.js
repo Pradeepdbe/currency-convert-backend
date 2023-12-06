@@ -10,17 +10,16 @@ module.exports={
           return res.status(400).json({ error: 'Missing required parameters' });
         }
         try{
-          userModel.fetchData(function(exchangeRates){                       
-            const exchangeRate = exchangeRates[`${sourceCurrency}_to_${targetCurrency}`];
-             
+          userModel.fetchData(function(exchangeRates){ 
+            const exchangeRate = exchangeRates[`${sourceCurrency}_to_${targetCurrency}`];             
             if (!exchangeRate) {
               return res.status(400).json({ error: 'Invalid currency codes' });
             }
             let convertedAmount = amount * exchangeRate;
             res.send({convertedAmount : convertedAmount,
-              exchangeRate: exchangeRate});             
+              exchangeRate: exchangeRate});            
           })
-        }  catch (error) {
+        } catch (error) {
           res.status(500).json({ error: 'Internal server error' });
         }
     }
